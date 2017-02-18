@@ -1,0 +1,3 @@
+fg_chrono_homepage:
+    path:     /
+    defaults: { _controller: FGChronoBundle:Default:index }

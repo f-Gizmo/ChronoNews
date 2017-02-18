@@ -1,0 +1,23 @@
+{% extends "FGChronoBundle:Default:index.html.twig" %}
+{% block Master_body %}
+    {% for flashMessage in app.session.flashbag.get('info') %}
+              <div>{{flashMessage}}</div>
+         {% endfor %}
+	{% block index_news_title %}<h1>Liste des {{limite}} dernières news Chronocarpe</h1>{% endblock %}	
+{% block NewsBody %}
+	{% if Newsletters is defined %}
+		{% for Newsletter in Newsletters %}
+			<a href="{{ path('fg_news_view', {'id': Newsletter.id})}}">
+				<div class='titre'>{{Newsletter.titre}}</div>
+				<small>{{Newsletter.date|date("d/m/Y")}}<br/>Type: {{Newsletter.type}}
+					<br/> Deal Day : {% if Newsletter.refdd is empty %} Pas de Deal{% endif %}{{Newsletter.refdd}}
+				</small>
+			</a>
+			<br/>	
+		{% endfor %}
+	{% endif %}
+{% endblock %}
+{% endblock %}
+{% block sousMenu %}
+	{{include ('FGNewsBundle:Default:sousMenuNews.html.twig') }}
+{% endblock %}

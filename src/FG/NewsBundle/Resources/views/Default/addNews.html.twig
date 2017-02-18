@@ -1,0 +1,14 @@
+{% extends "FGNewsBundle:Default:index.html.twig" %}
+{% block Master_body %}
+    {% for flashMessage in app.session.flashbag.get('info') %}
+              <div>{{flashMessage}}</div>
+         {% endfor %}
+	{% block index_news_title %}<h1>Ajout d'une Newsletter Chronocarpe</h1>{% endblock %}	
+
+
+{% block NewsBody %}
+	{{form(form)}}
+{% endblock %}
+
+
+{% endblock %}

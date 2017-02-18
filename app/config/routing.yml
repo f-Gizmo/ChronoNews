@@ -1,0 +1,14 @@
+fg_chrono:
+    resource: "@FGChronoBundle/Resources/config/routing.yml"
+    prefix:   /
+
+fg_news:
+    resource: "@FGNewsBundle/Resources/config/routing.yml"
+    prefix:   /news
+
+fg_user:
+    resource: "@FGUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

@@ -1,4 +1,4 @@
 services:
-#    fg_news.example:
-#        class: FG\NewsBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    fg_news.antispam:
+        class: FG\NewsBundle\Services\FGAntiSpam
+        arguments: [5]

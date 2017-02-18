@@ -12,6 +12,7 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
+    	$datecourrante = new \DateTime;
     	$limite=5;
     	$em=$this->getDoctrine()->getManager();
     	$newsletters= $em->getRepository('FGNewsBundle:Newsletter')->findBy(
@@ -23,15 +24,22 @@ class DefaultController extends Controller
         return $this->render('FGNewsBundle:Default:index.html.twig', array(
         	'Newsletters' => $newsletters,
         	'limite' => $limite,
+        	'datecourrante' =>$datecourrante
         	));
     }
     public function addAction(Request $request)
     {
+    	$serviceSpam =$this->container->get('fg_news.antispam');
     	$newsletter = new Newsletter;
     	$form = $this->createForm(NewsletterType::class , $newsletter);
 
     	if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
     	{
+    		if ($serviceSpam->isSpam($newsletter->getTitre()))
+    		{
+    			throw new \Exception("Titre Trop Court");
+    			
+    		}
     		$em = $this->getDoctrine()->getManager();
     		$em->persist($newsletter);
     		$em->flush();
@@ -43,5 +51,12 @@ class DefaultController extends Controller
     	return $this->render('FGNewsBundle:Default:addNews.html.twig', array(
     		'form' => $form->createView(),
      		));
+    }
+    public function futurNewsAction()
+    {
+    	$em=$this->getDoctrine()->getManager();
+    	$newsletters= $em->getRepository('FGNewsBundle:Newsletter')->getFuturNews();
+        return $this->render('FGNewsBundle:Default:futursNews.html.twig', array(
+        	'Newsletters' => $newsletters,));
     }
 }

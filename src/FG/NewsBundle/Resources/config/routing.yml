@@ -10,6 +10,6 @@ fg_news_view:
 fg_news_add:
     path:     /add
     defaults: { _controller: FGNewsBundle:Default:add }
-fg_news_all:
-    path:     /all
-    defaults: { _controller: FGNewsBundle:Default:all }
+fg_news_futur:
+    path:     /futur
+    defaults: { _controller: FGNewsBundle:Default:futurNews }

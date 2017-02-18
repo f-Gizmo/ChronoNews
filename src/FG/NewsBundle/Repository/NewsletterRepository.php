@@ -10,4 +10,16 @@ namespace FG\NewsBundle\Repository;
  */
 class NewsletterRepository extends \Doctrine\ORM\EntityRepository
 {
+
+	public function getFuturNews()
+	{
+		$datecourrante = new \DateTime;
+		$qb = $this->createQueryBuilder('n');
+		$qb
+		->where ('n.date >= :date')
+		->setParameter('date', $datecourrante)
+		->orderBy('n.date','DESC');
+		return $qb->getQuery()->getResult();
+
+	}
 }

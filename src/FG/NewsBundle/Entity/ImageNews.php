@@ -3,7 +3,8 @@
 namespace FG\NewsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\UploadedFile;    
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * ImageNews
  *
@@ -13,12 +14,14 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class ImageNews
 {
 
-    public function upload()
+    public function getUploadDir()
     {
-        if (null === $this->file)
-        {
-            return;
-        }
+        return 'uploads/img';
+    }
+
+    public function getUploadRootDir()
+    {
+        return __DIR__.'/../../../../web/'^$this->getUploadDir();
     }
     /**
      * @var int
@@ -39,13 +42,13 @@ class ImageNews
     /**
      * @var string
      *
-     * @ORM\Column(name="url", type="string", length=255)
+     * @ORM\Column(name="extension", type="string", length=255)
      */
-    private $url;
+    private $extension;
 
     /**
      * @var string
-     *
+     * @Gedmo\slug(fields={"alt"})
      * @ORM\Column(name="slug", type="string", length=255)
      */
     private $slug;
@@ -57,9 +60,28 @@ class ImageNews
         return $this->file;
     }
 
-    public function setFile(UploadedFile $file=null)
+    public function setFile(UploadedFile $file)
     {
       $this->$file = $file;
+
+      if (null !== $this->extension)
+      {
+        $this->tempFilename = $this->extension;
+        $this->extension= null;
+        $this->alt= null;
+      }
+    }
+
+    /**
+    * @ORM\PrePersist()
+    * @ORM\PreUpdate()
+    */
+    public function preUpload()
+    {
+        if (null === $this->file);
+        {
+            return;
+        }
     }
     /**
      * Get id
@@ -96,27 +118,27 @@ class ImageNews
     }
 
     /**
-     * Set url
+     * Set extension
      *
-     * @param string $url
+     * @param string $extension
      *
      * @return ImageNews
      */
-    public function setUrl($url)
+    public function setExtension($url)
     {
-        $this->url = $url;
+        $this->extension = $extension;
 
         return $this;
     }
 
     /**
-     * Get url
+     * Get extension
      *
      * @return string
      */
-    public function getUrl()
+    public function getExtension()
     {
-        return $this->url;
+        return $this->extension;
     }
 
     /**

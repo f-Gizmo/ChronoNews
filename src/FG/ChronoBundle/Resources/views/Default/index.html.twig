@@ -37,10 +37,11 @@
       </div>
       <div id="content" class="col-md-9">
         
-     {% for flashMessage in app.session.flashbag.get('info') %}
+        {% for flashMessage in app.session.flashbag.get('info') %}
               <div>{{flashMessage}}</div>
          {% endfor %}    
         {% block Master_body %}
+
         {% endblock %}
 
       </div>

@@ -3,12 +3,6 @@
     {% for flashMessage in app.session.flashbag.get('info') %}
               <div>{{flashMessage}}</div>
          {% endfor %}
-	{% block index_news_title %}<h1>Futurs newsletters Chronocarpe </h1>{% endblock %}	
-
-{% block NewsBody %}
-	{{include ('FGNewsBundle:Default:viewListe.html.twig') }}
-
-{% endblock %}
-
-
+	{% block index_news_title %}<h1>Liste des {{limite}} dernières news Chronocarpe</h1>{% endblock %}	
+{{include ('FGNewsBundle:Default:viewListe.html.twig') }}
 {% endblock %}

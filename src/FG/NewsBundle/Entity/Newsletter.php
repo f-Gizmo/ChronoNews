@@ -13,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Newsletter
 {
     /**
+    * @ORM\OneToOne(targetEntity="FG\NewsBundle\Entity\ImageNews", cascade={"persist"})
+    */
+    private $image;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -217,5 +222,28 @@ class Newsletter
     {
         return $this->comment;
     }
-}
 
+    /**
+     * Set image
+     *
+     * @param \FG\NewsBundle\Entity\ImageNews $image
+     *
+     * @return Newsletter
+     */
+    public function setImage(ImageNews $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \FG\NewsBundle\Entity\ImageNews
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+}

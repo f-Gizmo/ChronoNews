@@ -1,0 +1,24 @@
+{% block NewsBody %}
+ {% if Newsletters is defined %}
+    {% for Newsletter in Newsletters %}
+      <div class="NewsNormal">
+      <a href="{{ path('fg_news_view', {'id': Newsletter.id})}}">
+        <div class='titre'>{{Newsletter.titre}}</div>    </a>
+        <small>{{Newsletter.date|date("d/m/Y")}}<br/>Type: {{Newsletter.type}}
+          <br/> Deal Day : {% if Newsletter.refdd is empty %} Pas de Deal{% endif %}{{Newsletter.refdd}}
+        </small>
+  <br/>
+
+    <a href="{{ path('fg_news_edit', {'id': Newsletter.id}) }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-edit"></i>
+      Modifier l'annonce
+    </a>
+    <a href="{{ path('fg_news_delete', {'id': Newsletter.id}) }}" class="btn btn-danger" onclick="return confirm('Etes vous sur de vouloir supprimer ?')">
+      <i class="glyphicon glyphicon-trash"></i>
+      Supprimer l'annonce
+    </a>
+      </div>
+      <br/> 
+    {% endfor %}
+  {% endif %}
+{% endblock %}

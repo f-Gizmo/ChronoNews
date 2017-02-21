@@ -4,7 +4,19 @@ fg_news_homepage:
 fg_news_view:
     path:     /view/{id}
     defaults:
+      _controller: FGNewsBundle:Default:viewNews
+    requirements:
+      id: \d+  
+fg_news_edit:
+    path:     /edit/{id}
+    defaults:
       _controller: FGNewsBundle:Default:index
+    requirements:
+      id: \d+
+fg_news_delete:
+    path:     /delete/{id}
+    defaults:
+      _controller: FGNewsBundle:Default:deleteNews
     requirements:
       id: \d+  
 fg_news_add:

@@ -21,7 +21,7 @@ class DefaultController extends Controller
     		$limite,
     		0
     		);
-        return $this->render('FGNewsBundle:Default:index.html.twig', array(
+        return $this->render('FGNewsBundle:Default:derniersNews.html.twig', array(
         	'Newsletters' => $newsletters,
         	'limite' => $limite,
         	'datecourrante' =>$datecourrante
@@ -58,5 +58,21 @@ class DefaultController extends Controller
     	$newsletters= $em->getRepository('FGNewsBundle:Newsletter')->getFuturNews();
         return $this->render('FGNewsBundle:Default:futursNews.html.twig', array(
         	'Newsletters' => $newsletters,));
+    }
+    public function deleteNewsAction($id)
+    {
+    	$em= $this->getDoctrine()->getManager();
+    	$newsToRemove= $em->getRepository('FGNewsBundle:Newsletter')->find($id);
+    	$em->remove($newsToRemove);
+    	$em->flush();
+
+    	return $this->redirectToRoute('fg_news_homepage');
+    }
+      public function viewNewsAction($id)
+    {
+    	$em= $this->getDoctrine()->getManager();
+    	$newsToview= $em->getRepository('FGNewsBundle:Newsletter')->find($id);
+
+    	 return $this->render('FGNewsBundle:Default:viewNews.html.twig', array('Newsletter' =>$newsToview));
     }
 }

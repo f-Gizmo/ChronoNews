@@ -10,6 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="image_news")
  * @ORM\Entity(repositoryClass="FG\NewsBundle\Repository\ImageNewsRepository")
+ * @ORM\HasLifeCycleCallBacks
  */
 class ImageNews
 {
@@ -54,6 +55,7 @@ class ImageNews
     private $slug;
 
     private $file;
+    private $tempFilename;
 
     public function getFile()
     {
@@ -62,7 +64,7 @@ class ImageNews
 
     public function setFile(UploadedFile $file)
     {
-      $this->$file = $file;
+      $this->file = $file;
 
       if (null !== $this->extension)
       {
@@ -82,7 +84,49 @@ class ImageNews
         {
             return;
         }
+
+        $this->extention = $this->file->getExtension();
+        $this->alt = $this->getClientOriginalName();
     }
+
+    /**
+    * @ORM\PostPersist()
+    * @ORM\PostUpdate()
+    */
+    public function upload(){
+    if (null === $this->file);
+        {
+            return;
+        }
+
+       if (null !== $this->tempFilename);
+        {
+            $oldFile = $this->getUploadRootDir().'/'.$this->id.'.'.$this->tempFilename;
+            if (file_exists($oldFile))
+            {
+                unlink($oldFile);
+            }
+        }
+        $this->file->move($this->getUploadRootDir().'/'.$this->id.'.'.$this->extension);
+
+    }
+    /**
+    * @ORM\PreRemove()
+    */
+    public function preRemoveUpload()
+    {
+        $this->tempFilename = $this->getUploadRootDir().'/'.$this->id.'.'.$this->extension;
+    }
+    /**
+    * @ORM\PostRemove()
+    */
+    public function postRemoveUpload()
+    {
+        if (file_exists($this->tempFilename)){
+            unlink($this->tempFilename);
+        }
+    }
+
     /**
      * Get id
      *

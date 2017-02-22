@@ -35,6 +35,7 @@ class DefaultController extends Controller
 
     	if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
     	{
+            $newsletter->getImage()->upload();
     		if ($serviceSpam->isSpam($newsletter->getTitre()))
     		{
     			throw new \Exception("Titre Trop Court");
@@ -47,6 +48,7 @@ class DefaultController extends Controller
     	}
 
     	
+    
 
     	return $this->render('FGNewsBundle:Default:addNews.html.twig', array(
     		'form' => $form->createView(),

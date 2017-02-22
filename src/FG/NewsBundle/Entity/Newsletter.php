@@ -230,7 +230,7 @@ class Newsletter
      *
      * @return Newsletter
      */
-    public function setImage(ImageNews $image = null)
+    public function setImage($image = null)
     {
         $this->image = $image;
 
